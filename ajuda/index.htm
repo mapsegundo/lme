@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="imagetoolbar" content="no" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <meta http-equiv="X-UA-Compatible" content="IE=100" />
+	<title>Sistema de Distribuição de Certificados LME</title>
+	<link type="text/css" href="css/ui-darkness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
+	<link href="css/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
+    <link media="screen" type="text/css" href="css/main.css" rel="stylesheet" />
+	<!--[if IE 7]>
+	<link media="screen" type="text/css" href="css/main_ie7.css" rel="stylesheet" />
+	<![endif]-->
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="js/ui.tabs.paging.js"></script>
+	<script type="text/javascript" src="js/jquery.maphilight.min.js"></script>
+	<script type="text/javascript" src="js/jquery.watermarkinput.js"></script>
+	<script type="text/javascript" src="js/jquery.autocomplete.js"></script>
+	<!--<script type="text/javascript" src="js/shiftzoom.js"></script>-->
+	<script type="text/javascript" src="js/jquery.hashtable-1.1.js"></script>
+	<script type="text/javascript">
+		/* Textbox Watermark plugin */
+		$(function($) {
+			$("#q").Watermark('Pesquisar');
+		});
+
+		/* Shiftzoom plugin */
+		//if (document.images && document.createElement && document.getElementById) {
+		//	document.writeln('<style type="text/css">');
+		//	document.writeln('	img.shiftzoom { visibility: hidden; }');
+		//	document.writeln('<\/style>');
+		//}
+
+		$(document).ready(function() { 
+
+			/* Tabs plugin */
+			$("#tabs").tabs({
+				selected: 0
+				, select: function(event, ui) {
+					var url = $.data(ui.tab, 'load.tabs');
+					if (url) {
+						location.href = url;
+						return false;
+					}
+					return true;
+				}
+			});
+
+			$("#tabs").tabs('paging');
+
+			/* Autocomplete plugin */
+			var ht = new jQuery.Hashtable();
+			ht.add("Sistema de Distribuição de Certificados LME","e0338998-1430-47dd-8e79-8c5bfe6835f8");
+ht.add("Administrar o Sistema de Distribuição de Certificados LME","6de0f3c4-f718-4f14-a6a9-08dfaf7342a2");
+ht.add("Logar sistema","696b787e-b102-44cb-87d8-ca9f68dc6d97");
+ht.add("Visualizar página inicial","a6620a46-d401-4145-81a8-a2438e6ab064");
+ht.add("Sair do sistema","44e968aa-2ac1-4260-90bb-d05a6622688b");
+ht.add("Alterar senha","90c61a7a-8ac7-4496-b2fe-03d304e5c1bf");
+ht.add("Acessar administração","b7b119d9-816a-4c89-aeeb-d4cad7b3b301");
+ht.add("Acessar menu &quot;clientes&quot;","e20ccf6c-fd5d-47b1-8216-b0a239b8ec62");
+ht.add("Listar cliente(s)","6ebe74bf-1070-49ba-9f57-29c6eac9c36c");
+ht.add("Cadastrar cliente","03a4ae73-16ab-4dbb-88d1-2714a64f56aa");
+ht.add("Excluir cliente","ac0a76c3-5fbc-46e7-8df1-e15c41c63de4");
+ht.add("Acessar menu &quot;certificdos&quot;","f1ea995b-0dc7-4230-815e-098ee2b29fd0");
+ht.add("Enviar certificado","0b6a6f51-8cc0-48a7-9955-fff3ba50d3cf");
+ht.add("Listar certificado(s)","7f0132fa-71f1-4aa2-903f-7be26fc66763");
+ht.add("Excluir certificado","53dab877-c203-489e-ba95-7f6d92ce06bb");
+
+			var data = 'Sistema de Distribuição de Certificados LME|Administrar o Sistema de Distribuição de Certificados LME|Logar sistema|Visualizar página inicial|Sair do sistema|Alterar senha|Acessar administração|Acessar menu &quot;clientes&quot;|Listar cliente(s)|Cadastrar cliente|Excluir cliente|Acessar menu &quot;certificdos&quot;|Enviar certificado|Listar certificado(s)|Excluir certificado'.split('|');
+			$("#q").autocomplete(data, { matchContains: true});
+			$('#q').result(function(event, data, formatted) {
+				var val = ht.get(formatted.toString());
+				var anchor = '#' + val;
+				var dia = anchor + '_doc';
+				$(dia).dialog('open');
+			});
+
+			/* Show/hide Pan & Zoom */
+			//$('#diagramimagepan').hide();
+
+			//$('#pan').click(function() {
+			//	$(this).toggleClass("down");
+
+			//	if ($(this).hasClass("down")) {
+			//		$('#diagramimage').hide();
+			//		$('#diagramimagepan').show('slow');
+			//		$(this).text('Visão Normal');
+			//	} else {
+			//		$('#diagramimagepan').hide();
+			//		$('#diagramimage').show('slow');
+			//		$(this).text('Visão Pan & Zoom');
+			//	}
+			//});
+			
+			/* Dialog plugin */
+			var minWidth = 610;
+			if ($(".docelem img").hasClass("imageForm")) {
+				var width = $(".docelem .imageForm").width();
+			} else {
+				var width = minWidth;
+			};
+			$('.docelem').dialog({ 
+				autoOpen: false, 
+				width: (width + 30),
+				height: 480, 
+				modal: true,
+				show: 'slide'
+			});
+			$('.docelem').dialog('option', 'minWidth', 640);
+			
+			$('.diagelem').click(function() {
+				var t = $(this).attr('href');
+				t = t.replace('#', '');
+				var dia = $(this).attr('href') + '_doc';
+				
+				$(dia).dialog('open');
+			});
+
+			/* Map Highlight plugin */
+			$(function() {
+				$('.map').maphilight();
+			});
+
+            // Set height diagramimage
+            if($.browser.msie){                         
+                $("#diagram-image").height($("#diagramimage").height());               
+            }
+		});
+	</script>
+	<script type="text/javascript" src="js/cufon-yui.js"></script>
+	<script type="text/javascript" src="js/BeauSansRegular.js"></script>    
+</head>
+<body>
+
+	<div id="contentwrapper">
+	  <div id="tabs">
+			<ul class="tabs">
+				<li><a href="#tabs-0" title="tabs-0">Sistema de Distribuição de Certificados LME</a></li>
+
+			</ul>
+		<div id="content">
+				<div id="tabs-0">
+					<div class="layout-type">
+						<ul id="topnav">
+							<li class="home"><a href="http://www.nutec.ce.gov.br/lme/index.php">Principal</a></li>
+						</ul>
+						<ul>
+							<li><span class="search"><input id="q" name="q" type="text" style="color:#3A3A3A"/></span></li>
+						</ul>
+					</div>
+					<div>
+					<a href="#e0338998-1430-47dd-8e79-8c5bfe6835f8" class="diagelem"><h2>Sistema de Distribuição de Certificados LME</h2></a>
+					</div>
+                    <div>
+                    <a href="lme.pdf" title="Clique aqui para efetuar o download" onmouseover="color: blue"><img src="pdf-icon.png" width="16" height="16" border="0"/> <u>Download Documentação</u></a> 
+                    </div>
+					<div id="diagram-image">
+						<div id="diagramimage" align="center">
+							<div id="documentation" style="visibility: hidden;">
+							<div id="e0338998-1430-47dd-8e79-8c5bfe6835f8_doc" class="docelem" title="Sistema de Distribuição de Certificados LME">
+<a name="e0338998-1430-47dd-8e79-8c5bfe6835f8" id="e0338998-1430-47dd-8e79-8c5bfe6835f8"></a>
+
+<h4>Versão</h4><p>1.0</p><h4>Autor</h4>
+<p>NUTIC - Núcleo de tecnologia da informação e comunicação</p>
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">Criado para os clientes visualizarem os certificados padrões do laboratório LME através do site do NUTEC.</span></p><br> </p>
+
+</div>
+<div id="6de0f3c4-f718-4f14-a6a9-08dfaf7342a2_doc" class="docelem" title="Administrar o Sistema de Distribuição de Certificados LME">
+<a name="6de0f3c4-f718-4f14-a6a9-08dfaf7342a2" id="6de0f3c4-f718-4f14-a6a9-08dfaf7342a2"></a>
+<img class="icon" src="diagrams/bpmnimg/Participant.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;">Processo que descreve as atividades que o administrador poderá realizar ao acessar o sistema.</span></p><br> </p>
+
+</div>
+<div id="696b787e-b102-44cb-87d8-ca9f68dc6d97_doc" class="docelem" title="Logar sistema">
+<a name="696b787e-b102-44cb-87d8-ca9f68dc6d97" id="696b787e-b102-44cb-87d8-ca9f68dc6d97"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">O usuário efetua o login no sistema inserindo usuário, senha e clicando no botão "Login".</span></p><br> </p>
+
+</div>
+<div id="a6620a46-d401-4145-81a8-a2438e6ab064_doc" class="docelem" title="Visualizar página inicial">
+<a name="a6620a46-d401-4145-81a8-a2438e6ab064" id="a6620a46-d401-4145-81a8-a2438e6ab064"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;"> A página inicial apresenta um quadro de "Bem vindo" contendo o nome do usuário que efetuou o login e o botão "Sair" para efetuar o logoff. Na parte superior do quadro de "Bem vindo" será possível visualizar 2 menus, um com o nome "Administração" para efetuar listagens, cadastros e excluões de clientes e certificados, e "Alterar senha" para modificar a senha do usuário que estiver logado no sistema.</span></p><br> </p>
+
+</div>
+<div id="44e968aa-2ac1-4260-90bb-d05a6622688b_doc" class="docelem" title="Sair do sistema">
+<a name="44e968aa-2ac1-4260-90bb-d05a6622688b" id="44e968aa-2ac1-4260-90bb-d05a6622688b"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:14pt;"> O usuário clica no botão "Sair" e automaticamente será deslogado pelo sistema.</span></p><br> </p>
+
+</div>
+<div id="90c61a7a-8ac7-4496-b2fe-03d304e5c1bf_doc" class="docelem" title="Alterar senha">
+<a name="90c61a7a-8ac7-4496-b2fe-03d304e5c1bf" id="90c61a7a-8ac7-4496-b2fe-03d304e5c1bf"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;"> O usuário visualizará um novo quadro apresentando os seguintes campos: "Senha antiga", "Senha nova" e "Confirmação". Com a inserção dessas informações e clicando no botão "Alterar", a senha será alterada para a nova senha inserida, caso as informações passadas estejam corretas, tal procedimento será confirmado com a seguinte mensagem "Senha alterada com sucesso", caso contrário a mensagem será "Senha inválida" e os dados da tela serão limpados sem modificar a senha.</span></p><br> </p>
+
+</div>
+<div id="b7b119d9-816a-4c89-aeeb-d4cad7b3b301_doc" class="docelem" title="Acessar administração">
+<a name="b7b119d9-816a-4c89-aeeb-d4cad7b3b301" id="b7b119d9-816a-4c89-aeeb-d4cad7b3b301"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">O usuário poderá administrar o sistema a partir de dois menus no botão "Administração", que são "Clientes" e "Certificados". </span></p><br> </p>
+
+</div>
+<div id="e20ccf6c-fd5d-47b1-8216-b0a239b8ec62_doc" class="docelem" title="Acessar menu &quot;clientes&quot;">
+<a name="e20ccf6c-fd5d-47b1-8216-b0a239b8ec62" id="e20ccf6c-fd5d-47b1-8216-b0a239b8ec62"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">No menu "cliente" o usuário poderá listar, cadastrar e excluir clientes.</span></p><br> </p>
+
+</div>
+<div id="6ebe74bf-1070-49ba-9f57-29c6eac9c36c_doc" class="docelem" title="Listar cliente(s)">
+<a name="6ebe74bf-1070-49ba-9f57-29c6eac9c36c" id="6ebe74bf-1070-49ba-9f57-29c6eac9c36c"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:14pt;">Clicando na opção "Listar", todos os clientes cadastrados serão listados juntamente com o icone de uma lupa, dando possibilidade de visualizar e editar as informações do cliente clicando no icone.</span></p><br> </p>
+
+</div>
+<div id="03a4ae73-16ab-4dbb-88d1-2714a64f56aa_doc" class="docelem" title="Cadastrar cliente">
+<a name="03a4ae73-16ab-4dbb-88d1-2714a64f56aa" id="03a4ae73-16ab-4dbb-88d1-2714a64f56aa"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;">O usuário preenche seus dados correspondentes e clica no botão "inserir" para finalizar o cadastro e alocar o cliente na listagem. Com o cadastro do cliente concluido, o mesmo poderá efetuar seu login no sistema e ter acesso aos certificados.</span></p><br> </p>
+
+</div>
+<div id="ac0a76c3-5fbc-46e7-8df1-e15c41c63de4_doc" class="docelem" title="Excluir cliente">
+<a name="ac0a76c3-5fbc-46e7-8df1-e15c41c63de4" id="ac0a76c3-5fbc-46e7-8df1-e15c41c63de4"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">Clicando na opção "Excluir", todos os clientes cadastrados serão listados juntamente com o icone de uma "x", dando possibilidade de excluir o cliente ao clicar.</span></p><br> </p>
+
+</div>
+<div id="f1ea995b-0dc7-4230-815e-098ee2b29fd0_doc" class="docelem" title="Acessar menu &quot;certificdos&quot;">
+<a name="f1ea995b-0dc7-4230-815e-098ee2b29fd0" id="f1ea995b-0dc7-4230-815e-098ee2b29fd0"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">No menu "certificados" o usuário poderá listar, enviar e excluir certificados.</span></p><br> </p>
+
+</div>
+<div id="0b6a6f51-8cc0-48a7-9955-fff3ba50d3cf_doc" class="docelem" title="Enviar certificado">
+<a name="0b6a6f51-8cc0-48a7-9955-fff3ba50d3cf" id="0b6a6f51-8cc0-48a7-9955-fff3ba50d3cf"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;">O usuário adiciona certificados clicando no botão "procurar arquivos", com isso uma janela aparecerá na tela trazendo os arquivos do computador, onde o usuário poderá adicionar seus certificados em pdf e posteriormente, após a escolha do arquivo, poderá clicar no botão "enviar" para adicioná-lo na listagem de certificados.</span></p><br> </p>
+
+</div>
+<div id="7f0132fa-71f1-4aa2-903f-7be26fc66763_doc" class="docelem" title="Listar certificado(s)">
+<a name="7f0132fa-71f1-4aa2-903f-7be26fc66763" id="7f0132fa-71f1-4aa2-903f-7be26fc66763"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Segoe UI; font-size:12pt;">Clicando na opção "Listar", todos os certificados enviados serão listados, dando possibilidade de visualizar o certificado ao clicar no arquivo.</span></p><br> </p>
+
+</div>
+<div id="53dab877-c203-489e-ba95-7f6d92ce06bb_doc" class="docelem" title="Excluir certificado">
+<a name="53dab877-c203-489e-ba95-7f6d92ce06bb" id="53dab877-c203-489e-ba95-7f6d92ce06bb"></a>
+<img class="icon" src="diagrams/bpmnimg/AbstractTask.png" border="0" />
+
+<h4>Descrição</h4><p><p><span style="font-family:Times New Roman; font-size:12pt;"> Clicando na opção "Excluir", todos os certificados enviados serão listados juntamente com o icone de uma "x", dando possibilidade de excluir o certificado ao clicar.</span></p><br> </p>
+
+</div>
+
+							</div>
+						  <img src="diagrams/Sistema de Distribuição de Certificados LME.png" border="0" usemap="#map" class="map" />
+							<map name="map">
+								<area shape="rect" class="diagelem" coords="20,20,70,696" title="Processo que descreve as atividades que o administrador poderá realizar ao acessar o sistema.
+" href="#6de0f3c4-f718-4f14-a6a9-08dfaf7342a2" />
+<area shape="rect" class="diagelem" coords="87,150,177,210" title="O usuário efetua o login no sistema inserindo usuário, senha e clicando no botão &quot;Login&quot;.
+" href="#696b787e-b102-44cb-87d8-ca9f68dc6d97" />
+<area shape="rect" class="diagelem" coords="220,150,310,210" title=" A página inicial apresenta um quadro de &quot;Bem vindo&quot; contendo o nome do usuário que efetuou o login e o botão &quot;Sair&quot; para efetuar o logoff. Na parte superior do quadro de &quot;Bem vindo&quot; será possível visualizar 2 menus, um com o nome &quot;Administração&quot; para efetuar listagens, cadastros e excluões de clientes e certificados, e &quot;Alterar senha&quot; para modificar a senha do usuário que estiver logado no sistema.
+" href="#a6620a46-d401-4145-81a8-a2438e6ab064" />
+<area shape="rect" class="diagelem" coords="342,59,432,119" title=" O usuário clica no botão &quot;Sair&quot; e automaticamente será deslogado pelo sistema.
+" href="#44e968aa-2ac1-4260-90bb-d05a6622688b" />
+<area shape="rect" class="diagelem" coords="475,150,565,210" title=" O usuário visualizará um novo quadro apresentando os seguintes campos: &quot;Senha antiga&quot;, &quot;Senha nova&quot; e &quot;Confirmação&quot;. Com a inserção dessas informações e clicando no botão &quot;Alterar&quot;, a senha será alterada para a nova senha inserida, caso as informações passadas estejam corretas, tal procedimento será confirmado com a seguinte mensagem &quot;Senha alterada com sucesso&quot;, caso contrário a mensagem será &quot;Senha inválida&quot; e os dados da tela serão limpados sem modificar a senha.
+" href="#90c61a7a-8ac7-4496-b2fe-03d304e5c1bf" />
+<area shape="rect" class="diagelem" coords="342,244,432,304" title="O usuário poderá administrar o sistema a partir de dois menus no botão &quot;Administração&quot;, que são &quot;Clientes&quot; e &quot;Certificados&quot;. 
+" href="#b7b119d9-816a-4c89-aeeb-d4cad7b3b301" />
+<area shape="rect" class="diagelem" coords="210,320,300,380" title="No menu &quot;cliente&quot; o usuário poderá listar, cadastrar e excluir clientes.
+" href="#e20ccf6c-fd5d-47b1-8216-b0a239b8ec62" />
+<area shape="rect" class="diagelem" coords="220,504,290,554" title="Clicando na opção &quot;Listar&quot;, todos os clientes cadastrados serão listados juntamente com o icone de uma lupa, dando possibilidade de visualizar e editar as informações do cliente clicando no icone.
+" href="#6ebe74bf-1070-49ba-9f57-29c6eac9c36c" />
+<area shape="rect" class="diagelem" coords="142,505,212,553" title="O usuário preenche seus dados correspondentes e clica no botão &quot;inserir&quot; para finalizar o cadastro e alocar o cliente na listagem. Com o cadastro do cliente concluido, o mesmo poderá efetuar seu login no sistema e ter acesso aos certificados.
+" href="#03a4ae73-16ab-4dbb-88d1-2714a64f56aa" />
+<area shape="rect" class="diagelem" coords="296,502,364,552" title="Clicando na opção &quot;Excluir&quot;, todos os clientes cadastrados serão listados juntamente com o icone de uma &quot;x&quot;, dando possibilidade de excluir o cliente ao clicar.
+" href="#ac0a76c3-5fbc-46e7-8df1-e15c41c63de4" />
+<area shape="rect" class="diagelem" coords="472,320,562,380" title="No menu &quot;certificados&quot; o usuário poderá listar, enviar e excluir certificados.
+" href="#f1ea995b-0dc7-4230-815e-098ee2b29fd0" />
+<area shape="rect" class="diagelem" coords="403,501,471,555" title="O usuário adiciona certificados clicando no botão &quot;procurar arquivos&quot;, com isso uma janela aparecerá na tela trazendo os arquivos do computador, onde o usuário poderá adicionar seus certificados em pdf e posteriormente, após a escolha do arquivo, poderá clicar no botão &quot;enviar&quot; para adicioná-lo na listagem de certificados.
+" href="#0b6a6f51-8cc0-48a7-9955-fff3ba50d3cf" />
+<area shape="rect" class="diagelem" coords="478,498,556,555" title="Clicando na opção &quot;Listar&quot;, todos os certificados enviados serão listados, dando possibilidade de visualizar o certificado ao clicar no arquivo.
+" href="#7f0132fa-71f1-4aa2-903f-7be26fc66763" />
+<area shape="rect" class="diagelem" coords="564,496,637,554" title=" Clicando na opção &quot;Excluir&quot;, todos os certificados enviados serão listados juntamente com o icone de uma &quot;x&quot;, dando possibilidade de excluir o certificado ao clicar.
+" href="#53dab877-c203-489e-ba95-7f6d92ce06bb" />
+
+
+							</map>
+						</div>
+					</div>
+				</div>
+		  </div>
+          <p>&nbsp;</p>
+          <div align="center">
+          <img src="rodape.png" width="383" height="100"/>
+          </div>
+		</div>
+	</div>
+</body>
+</html>
